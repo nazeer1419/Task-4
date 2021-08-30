@@ -1,0 +1,288 @@
+{
+  "intents": [
+    {
+      "intent": "OrderItem",
+      "examples": [
+        {
+          "text": "I want to order a latte"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "ThankYou",
+      "examples": [
+        {
+          "text": "Thank you, I'm done"
+        },
+        {
+          "text": "Thank you, I'm fine"
+        },
+        {
+          "text": "Thank you, that is all I need"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Welcome",
+      "examples": [
+        {
+          "text": "Can I order a Coffee?"
+        },
+        {
+          "text": "Can you take a coffee order?"
+        },
+        {
+          "text": "Hey, I want to order a coffee"
+        },
+        {
+          "text": "Hi, can I order a coffee?"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "HotCold",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Cold",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Hot",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "ItemName",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Brewed coffee",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Cappuccino",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Espresso shots",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Flat White",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Latte",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Mocha",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "ItemSize",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Large",
+          "synonyms": [
+            "Big"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Medium",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hi, I am a coffee bot, how can I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_6_1627999366374",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Okay, hot or cold?"
+              },
+              {
+                "text": "fine, hot or cold?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_7_1627998999956",
+      "conditions": "@ItemSize",
+      "dialog_node": "node_6_1627999114591"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Fine, you will be redirected to the payment page"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#ThankYou",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_6_1627999366374",
+      "previous_sibling": "node_7_1627998999956"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "What size?"
+              },
+              {
+                "text": "Okay, what size?"
+              },
+              {
+                "text": "Sure, what size do you want? we have small, medium and large"
+              },
+              {
+                "text": "sure,  what size?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@ItemName",
+      "dialog_node": "node_7_1627998999956",
+      "previous_sibling": "node_8_1627998187887"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "okay, your order is confirmed, do you want anything else?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_6_1627999114591",
+      "conditions": "@HotCold",
+      "dialog_node": "node_7_1627999165478"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sure, what do you need?"
+              },
+              {
+                "text": "Sure, what order can I take for you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Welcome",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_8_1627998187887"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "intent_classification": {
+      "training_backend_version": "v2"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "Coffebot skill",
+  "language": "en",
+  "description": ""
+}
